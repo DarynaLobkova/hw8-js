@@ -46,15 +46,28 @@ function onImageClick(e) {
     refs.lightbox.classList.add('is-open')
 
    setLargeImage(largeImageURL)
-    
+   
+  document.addEventListener("keydown", handleKeyDown);
     
 }
+
+function handleKeyDown(e) {
+  e.preventDefault();
+  if (e.code === "Escape") {
+    closeModal()
+  }
+}
+
 function setLargeImage(url) {
     refs.lightbox__image.src = url;
 }
 function closeModal() {
-      refs.lightbox.classList.remove('is-open')
+  refs.lightbox.classList.remove('is-open')
+  refs.lightbox__image.src = ''
+  document.removeEventListener("keydown", handleKeyDown);
     
 }
 
 refs.closeModalBtn.addEventListener('click', closeModal)
+
+
