@@ -7,10 +7,10 @@ const refs = {
  closeModalBtn: document.querySelector('[data-action="close-lightbox"]'),
   modal: document.querySelector(".lightbox__content"),
   lightbox__image: document.querySelector(".lightbox__image"),
-
+  lightbox__overlay: document.querySelector('.lightbox__overlay')
 };
 
-const createGalleryItem = ({ preview, original, description }) =>
+const createGalleryItem = ({ preview, original, index, description }) =>
   `<li class="gallery__item">
 <a
   class="gallery__link"
@@ -20,6 +20,7 @@ const createGalleryItem = ({ preview, original, description }) =>
     class="gallery__image"
     src=${preview}
     data-source=${original}
+    data-index=${index}
     alt=${description}
   />
 </a>
@@ -32,6 +33,8 @@ const galleryMarkup = images.reduce(
 
 refs.gallery.insertAdjacentHTML("afterbegin", galleryMarkup);
 refs.image.classList.add("gallery__image");
+
+
 
 
 refs.gallery.addEventListener('click', onImageClick)
@@ -48,7 +51,14 @@ function onImageClick(e) {
    setLargeImage(largeImageURL)
    
   document.addEventListener("keydown", handleKeyDown);
+  document.addEventListener("keydown", handleSlider);
     
+}
+function handleSlider(e) {
+  e.preventDefault();
+  if (e.code === "ArrowRight" || e.code === "ArrowLeft" ) {
+
+  }
 }
 
 function handleKeyDown(e) {
@@ -65,9 +75,11 @@ function closeModal() {
   refs.lightbox.classList.remove('is-open')
   refs.lightbox__image.src = ''
   document.removeEventListener("keydown", handleKeyDown);
+  document.removeEventListener("keydown", handleSlider);
     
 }
 
 refs.closeModalBtn.addEventListener('click', closeModal)
+refs.lightbox__overlay.addEventListener('click' , closeModal)
 
 
